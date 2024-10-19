@@ -29,4 +29,22 @@ router.post("/", async (req, res) => {
     }
   });
 
+
+  router.get("/:testType", async(req,res) =>{
+    try{
+        const testType = req.params.testType;
+        if(testType == 'sweet' || testType == 'spicy' || testType == 'sour'){
+            const response = await MenuItem.find({taste : testType})
+            console.log("testType data fetched");
+            res.status(200).json(response); 
+        }else{
+            res.status(400).json({ message: "Invalid test type" });
+            return;
+        }
+    }catch(err){
+        console.log(err);
+        res.status(500).json({ message: "Error retrieving data" });
+    }
+})
+
   module.exports = router;
