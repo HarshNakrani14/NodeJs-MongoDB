@@ -48,4 +48,41 @@ router.get("/:workType", async(req,res) =>{
     }
 })
 
+
+// update person data
+router.put('/:id', async (req, res) => {
+  try{
+    const personId = req.params.id;
+    const updatedPersonData = req.body;
+    const response = await Person.findByIdAndUpdate(personId, updatedPersonData,{
+      new: true,
+      runValidators: true
+    });
+    if (!updatedPersonData){
+      return res.status(404).json({ message: "Person not found" }); 
+    }
+    console.log("data updated");
+    res.status(200).json(response);
+  }catch(err){
+    console.log(err);
+    res.status(500).json({ message: "Error updating data" });
+  }
+})
+
+// delete person data
+router.delete('/:id', async (req, res) =>{
+  try{
+    const personId = req.params.id;
+    const response = await Person.findByIdAndDelete(personId);
+    if (!response){
+      return res.status(404).json({ message: "Person not found" }); 
+    }
+    console.log("data deleted");
+    res.status(200).json(response);  // 200 status code for successful deletion. 404 status code for not found. 500 status code for server error.  // 200 status code for successful deletion. 404 status code for not found. 500 status code for server error.  // 200 status code for successful deletion. 404 status code for not found. 5
+  }catch(err){
+    console.log(err);
+    res.status(500).json({ message: "Error deleting data" });
+  }
+})
+
 module.exports = router;
