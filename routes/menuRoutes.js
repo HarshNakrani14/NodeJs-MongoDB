@@ -47,4 +47,41 @@ router.post("/", async (req, res) => {
     }
 })
 
-  module.exports = router;
+// update menu items
+router.put("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    const response = await MenuItem.findByIdAndUpdate(id, data, { 
+      new: true,
+      runValidators: true
+    });
+    if (!data) {
+      return res.status(404).json({ message: "menu not found" }); 
+    }
+    console.log("data updated");
+    res.status(200).json(response);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error updating data" });
+  }
+});
+
+// delete menu items
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const response = await MenuItem.findByIdAndDelete(id);
+    if (!response) {
+      return res.status(404).json({ message: "menu not found" }); 
+    }
+    console.log("data deleted");
+    res.status(200).json(response);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Error deleting data" });
+  }
+});
+
+module.exports = router;
