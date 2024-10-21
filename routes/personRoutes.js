@@ -69,7 +69,7 @@ router.put('/:id', async (req, res) => {
   }
 })
 
-// delete person data
+// delete person data from database
 router.delete('/:id', async (req, res) =>{
   try{
     const personId = req.params.id;

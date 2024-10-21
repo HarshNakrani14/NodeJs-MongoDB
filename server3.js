@@ -2,11 +2,14 @@
 // mongoDB
 const express = require("express");
 const app = express();
-const port = 3000;
 const db = require("./db");
+require('dotenv').config()
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
+
+const PORT = process.env.PORT || 3000;
+
 
 app.get("/", function (req, res) {
   res.send("This is Home Page");
@@ -19,4 +22,4 @@ const menuRoutes = require("./routes/menuRoutes");
 app.use('/menu',menuRoutes)
   
 
-app.listen(port, () => console.log(`server listening on port ${port}`));
+app.listen(PORT, () => console.log(`server listening on port ${PORT}`));
